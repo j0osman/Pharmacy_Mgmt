@@ -39,6 +39,8 @@ function App() {
                     	setAuth(true);
                     	setPharmData(res.data.pharmdata?.data || {});
 						window.location.href = "/";
+					}else {
+						setAuth(false);
 					}
                 })
                 .catch((e) => {
