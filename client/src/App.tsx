@@ -6,7 +6,6 @@ import {
     Navigate,
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Cookies from "js-cookie";
 import axios from "axios";
 
 //components
@@ -31,14 +30,12 @@ function App() {
 
     useEffect(() => {
         try {
-            const token = Cookies.get("jwt_token");
             axios
-                .post(`${API_URL}/auth`, { token })
+                .post(`${API_URL}/auth`, {}, { withCredentials: true })
                 .then((res) => {
 					if(res.data.status){
                     	setAuth(true);
                     	setPharmData(res.data.pharmdata?.data || {});
-						window.location.href = "/";
 					}else {
 						setAuth(false);
 					}

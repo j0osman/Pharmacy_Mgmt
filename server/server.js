@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const jwtGen = require("./utils/jwtGen");
 const db = require("./db");
 const fs = require("fs");
+const cookieParser = require("cookie-parser");
 const port = process.env.PORT || 5000;
 
 // Initialize database
@@ -24,6 +25,7 @@ const initDb = () => {
 initDb();
 
 app.use(cors({ origin: true, credentials: true }));
+app.use(cookieParser());
 app.use(express.json());
 app.use(
     express.urlencoded({
@@ -65,7 +67,8 @@ app.post("/login", (req, res) => {
                         { maxAge: 3600000, 
 						  httpOnly: true, 
 						  secure: true, 
-						  sameSite: 'none'
+						  sameSite: 'none',
+						  partitioned: true
 						}
                     );
                     res.send({ status: true });
@@ -78,7 +81,7 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/auth", (req, res) => {
-    const token = req.body.token;
+    const token = req.cookies.jwt_token;
     if (!token) {
         res.send({ status: false });
         return;
