@@ -29,24 +29,20 @@ function App() {
     const [pharmdata, setPharmData] = useState<any>({});
 
     useEffect(() => {
-        try {
-            axios
-                .post(`${API_URL}/auth`, {}, { withCredentials: true })
-                .then((res) => {
-					if(res.data.status){
-                    	setAuth(true);
-                    	setPharmData(res.data.pharmdata?.data || {});
-					}else {
-						setAuth(false);
-					}
-                })
-                .catch((e) => {
-                    console.log(e);
+        axios
+            .post(`${API_URL}/auth`, {}, { withCredentials: true })
+            .then((res) => {
+				if(res.data.status){
+                	setAuth(true);
+                	setPharmData(res.data.pharmdata.data);
+				}else {
 					setAuth(false);
-                });
-        } catch (e) {
-            console.log(e);
-        }
+				}
+            })
+            .catch((e) => {
+                console.log(e);
+				setAuth(false);
+            });
     }, []);
 
     return (

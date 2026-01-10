@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { toast } from "react-toastify";
 
 //stylesheets
 import "./Login.css";
 
-import { API_URL } from "../../config.ts"
+import { API_URL } from "../../config"
 
 const Login: React.FC = () => {
     const [login, setLogin] = useState<boolean | null>(null);
