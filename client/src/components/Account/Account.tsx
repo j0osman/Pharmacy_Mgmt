@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -37,6 +36,7 @@ const Account: React.FC<AccountProps> = (props) => {
                 toast.error("Logged Out!!!");
                 window.location.href = "/login"; // Hard redirect to clear state
             });
+			.catch(err => console.log(err));
     };
 
     const deleteAcc = () => {
