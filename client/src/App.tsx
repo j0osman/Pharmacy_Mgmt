@@ -35,8 +35,12 @@ function App() {
             axios
                 .post(`${API_URL}/auth`, { token })
                 .then((res) => {
-                    setAuth(res.data.status);
-                    setPharmData(res.data.pharmdata.data);
+					if(res.data.status){
+                    	setAuth(true);
+                    	setPharmData(res.data.pharmdata?.data || {});
+					}else {
+						setAuth(false);
+					}
                 })
                 .catch((e) => {
                     console.log(e);
