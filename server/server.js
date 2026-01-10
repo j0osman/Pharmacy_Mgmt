@@ -62,7 +62,7 @@ app.post("/login", (req, res) => {
                     res.cookie(
                         "jwt_token",
                         jwtGen(row.Pharm_id, row.Pharm_name, row.Pharm_email),
-                        { expiresIn: "1h", httpOnly: true, sameSite: 'none' }
+                        { expiresIn: "1h", httpOnly: true, secure: true, sameSite: 'none' }
                     );
                     res.send({ status: true });
                 } else {
