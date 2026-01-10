@@ -6,7 +6,7 @@ import axios from "axios";
 //stylesheets
 import "./Sell.css";
 
-import { API_URL } from "../../App.tsx"
+import { API_URL } from "../../config.ts"
 
 interface SellProps {
     pharmdata: {

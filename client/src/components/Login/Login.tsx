@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 //stylesheets
 import "./Login.css";
 
-import { API_URL } from "../../App.tsx"
+import { API_URL } from "../../config.ts"
 
 const Login: React.FC = () => {
     const [login, setLogin] = useState<boolean | null>(null);

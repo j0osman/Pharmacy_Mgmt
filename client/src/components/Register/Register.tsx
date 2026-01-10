@@ -6,7 +6,7 @@ import axios from "axios";
 //stylesheets
 import "./Register.css";
 
-import { API_URL } from "../../App.tsx"
+import { API_URL } from "../../config.ts"
 
 const Register: React.FC = () => {
     const [id, setID] = useState<string>("");

@@ -5,7 +5,7 @@ import axios from "axios";
 //stylesheets
 import "./Home.css";
 
-import { API_URL } from "../../App.tsx"
+import { API_URL } from "../../config.ts"
 
 interface HomeProps {
     pharmdata: {

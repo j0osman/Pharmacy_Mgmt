@@ -6,7 +6,7 @@ import axios from "axios";
 //stylesheets
 import "./Cust.css";
 
-import { API_URL } from "../../App.tsx"
+import { API_URL } from "../../config.ts"
 
 const Cust: React.FC = () => {
     const [formstatus, setFormStatus] = useState<boolean | null>(null);

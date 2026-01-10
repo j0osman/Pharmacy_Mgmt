@@ -3,10 +3,11 @@ import { Navigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { API_URL } from "../../App.tsx"
 
 //stylesheets
 import "./Account.css";
+
+import { API_URL } from "../../config.ts"
 
 interface AccountProps {
     pharmdata: {
