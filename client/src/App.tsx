@@ -27,23 +27,29 @@ import { API_URL } from "./config.ts"
 function App() {
     const [auth, setAuth] = useState<boolean>(false);
     const [pharmdata, setPharmData] = useState<any>({});
+	const [checking, setChecking] = useState<boolean>(true); // Add this line
 
     useEffect(() => {
         axios
             .post(`${API_URL}/auth`, {}, { withCredentials: true })
             .then((res) => {
-				if(res.data.status){
-                	setAuth(true);
-                	setPharmData(res.data.pharmdata.data);
-				}else {
-					setAuth(false);
-				}
+                if(res.data.status){
+                    setAuth(true);
+                    setPharmData(res.data.pharmdata.data);
+                } else {
+                    setAuth(false);
+                }
             })
             .catch((e) => {
                 console.log(e);
-				setAuth(false);
+                setAuth(false);
+            })
+            .finally(() => {
+                setChecking(false); // Stop checking once server responds
             });
     }, []);
+	
+	if (checking) return <div className="loading">Loading...</div>;
 
     return (
         <Router>
