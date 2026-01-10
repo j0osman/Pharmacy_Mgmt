@@ -6,21 +6,21 @@ import { toast } from "react-toastify";
 //stylesheets
 import "./Login.css";
 
-const Login = () => {
-    const [login, setLogin] = useState(null);
+const Login: React.FC = () => {
+    const [login, setLogin] = useState<boolean | null>(null);
 
-    const [username, setUserName] = useState("");
-    const [pass, setPass] = useState("");
+    const [username, setUserName] = useState<string>("");
+    const [pass, setPass] = useState<string>("");
 
-    const handleUserName = (e) => {
+    const handleUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserName(e.target.value);
     };
 
-    const handlePass = (e) => {
+    const handlePass = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPass(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = { username, pass };
         axios

@@ -1,57 +1,72 @@
 .nav {
-    background: transparent;
-    padding: 1em;
+    background: #8FABD4;
+    padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: ease 0.5s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-radius: 1rem;
 }
 
 .logo {
-    padding: 0 2em;
-    color: white;
-    transition: ease 0.5s;
+    padding: 0.25rem 0.5rem;
+    color: #000000;
+    font-size: 1.5rem;
+    font-weight: 1000;
+    transition: ease 0.3s;
+    border-radius: 1rem;
 }
 
 .logo:hover {
     cursor: pointer;
-    color: black;
+    background: #4A70A9;
+    color: #EFECE3;
 }
 
-.sale {
-    transition: ease 0.5s;
-    color: white;
+.sale, .accountlink {
+    color: #000000;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: ease 0.3s;
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
 }
-.sale:hover {
+
+.sale:hover, .accountlink:hover {
     cursor: pointer;
-    color: black;
-}
-
-.accountlink {
-    color: white;
-    transition: ease 0.5s;
-}
-
-.accountlink:hover {
-    cursor: pointer;
-    color: black;
+    background: #4A70A9;
+    color: #EFECE3;
 }
 
 .linklist {
     display: flex;
-    list-style-type: none;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .linklist li {
-    padding: 0 2em;
+    padding: 0;
 }
 
 @media only screen and (max-width: 465px) {
     .logo {
         padding: 0;
+        font-size: 1.5rem;
     }
 
     .linklist li {
-        padding: 0 1em;
+        padding: 0 0.5rem;
+    }
+
+    .sale, .accountlink {
+        font-size: 1rem;
+        padding: 0.2rem 0.4rem;
     }
 }

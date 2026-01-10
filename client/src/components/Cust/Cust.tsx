@@ -6,63 +6,66 @@ import axios from "axios";
 //stylesheets
 import "./Cust.css";
 
-const Cust = () => {
-    const [formstatus, setFormStatus] = useState(null);
-    const [custstatus, setCustStatus] = useState(null);
+const Cust: React.FC = () => {
+    const [formstatus, setFormStatus] = useState<boolean | null>(null);
+    const [custstatus, setCustStatus] = useState<boolean | null>(null);
 
-    const [id, setID] = useState("");
-    const [name, setName] = useState("");
-    const [age, setAge] = useState(0);
-    const [gender, setGender] = useState("");
-    const [address, setAddress] = useState("");
-    const [mobile, setMobile] = useState("");
+    const [id, setID] = useState<string>("");
+    const [name, setName] = useState<string>("");
+    const [age, setAge] = useState<string>("");
+    const [gender, setGender] = useState<string>("");
+    const [address, setAddress] = useState<string>("");
+    const [mobile, setMobile] = useState<string>("");
 
-    const handleID = (e) => {
-        if (e.target.value.length === 12) {
-            const pharmid = e.target.value;
+    const handleID = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setID(value);
+        if (value.length === 12) {
             axios
-                .post("http://localhost:5000/checkcust", { pharmid })
+                .post("http://localhost:5000/checkcust", { pharmid: value })
                 .then((res) => {
-                    setFormStatus(res.data.status);
-                    setID(e.target.value);
                     if (res.data.status) {
                         toast.success("Customer is in the Database");
+                        setFormStatus(true);
                     } else {
                         toast.error("Customer is not in the Database");
+                        setFormStatus(false);
                     }
                 })
                 .catch((e) => {
                     console.log(e);
+                    toast.error("Error checking customer");
+                    setFormStatus(false);
                 });
         }
     };
 
-    const handleName = (e) => {
+    const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
     };
 
-    const handleAge = (e) => {
+    const handleAge = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAge(e.target.value);
     };
 
-    const handleGender = (e) => {
+    const handleGender = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setGender(e.target.value);
     };
 
-    const handleAddress = (e) => {
+    const handleAddress = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setAddress(e.target.value);
     };
 
-    const handleMobile = (e) => {
+    const handleMobile = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMobile(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = {
             id,
             name,
-            age,
+            age: Number(age),
             gender,
             address,
             mobile,
@@ -95,19 +98,21 @@ const Cust = () => {
                         type="text"
                         onChange={handleID}
                         placeholder="Enter Aadhar Number"
-                        maxLength="12"
+                        maxLength={12}
                         className="inputs"
                         required
+                        value={id}
                     />
                     <input
                         id="custname"
                         type="text"
                         name="custname"
-                        maxLength="50"
+                        maxLength={50}
                         placeholder="Enter Name"
                         className="inputs"
                         required
                         onChange={handleName}
+                        value={name}
                     />
                     <input
                         type="number"
@@ -117,6 +122,7 @@ const Cust = () => {
                         className="inputs"
                         required
                         onChange={handleAge}
+                        value={age}
                     />
                     <label htmlFor="custgender">Select Gender</label>
                     <select
@@ -125,6 +131,7 @@ const Cust = () => {
                         className="inputs"
                         required
                         onChange={handleGender}
+                        value={gender}
                     >
                         <option value="null">-- Select Gender --</option>
                         <option value="M">Male</option>
@@ -134,13 +141,14 @@ const Cust = () => {
                     <textarea
                         name="custaddress"
                         id="custaddress"
-                        cols="30"
-                        rows="10"
-                        maxLength="250"
+                        cols={30}
+                        rows={10}
+                        maxLength={250}
                         className="inputs"
                         placeholder="Enter Address"
                         required
                         onChange={handleAddress}
+                        value={address}
                     ></textarea>
                     <input
                         id="custmobile"
@@ -148,9 +156,10 @@ const Cust = () => {
                         name="custmobile"
                         className="inputs"
                         placeholder="Enter mobile number"
-                        maxLength="12"
+                        maxLength={12}
                         required
                         onChange={handleMobile}
+                        value={mobile}
                     />
                     <button type="submit" className="custbtn">
                         Continue
@@ -164,9 +173,10 @@ const Cust = () => {
                         type="text"
                         onChange={handleID}
                         placeholder="Enter Aadhar Number"
-                        maxLength="12"
+                        maxLength={12}
                         className="inputs"
                         required
+                        value={id}
                     />
                     <button type="submit" className="custbtn">
                         Continue

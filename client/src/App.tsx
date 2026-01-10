@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
     BrowserRouter as Router,
     Routes,
     Route,
     Navigate,
 } from "react-router-dom";
-import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -23,11 +23,9 @@ import Update from "./components/Update/Update";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 
-toast.configure();
-
 function App() {
-    const [auth, setAuth] = useState(false);
-    const [pharmdata, setPharmData] = useState({});
+    const [auth, setAuth] = useState<boolean>(false);
+    const [pharmdata, setPharmData] = useState<any>({});
 
     useEffect(() => {
         try {
@@ -48,13 +46,12 @@ function App() {
 
     return (
         <Router>
+            <Nav />
             <div className="App">
-                <Nav />
             </div>
 
             <Routes>
                 <Route
-                    exact
                     path="/"
                     element={
                         auth ? (
@@ -65,7 +62,6 @@ function App() {
                     }
                 />
                 <Route
-                    exact
                     path="/sell"
                     element={auth ? <Cust /> : <Navigate to="/login" />}
                 />
@@ -80,7 +76,6 @@ function App() {
                     }
                 />
                 <Route
-                    exact
                     path="/account"
                     element={
                         auth ? (
@@ -91,7 +86,6 @@ function App() {
                     }
                 />
                 <Route
-                    exact
                     path="/update"
                     element={
                         auth ? (
@@ -102,12 +96,12 @@ function App() {
                     }
                 />
                 <Route
-                    exact
                     path="/login"
                     element={auth ? <Navigate to="/" /> : <Login />}
                 />
-                <Route exact path="/register" element={<Register />} />
+                <Route path="/register" element={<Register />} />
             </Routes>
+            <ToastContainer />
         </Router>
     );
 }

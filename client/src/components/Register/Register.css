@@ -3,39 +3,58 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 1rem;
+    max-width: 600px;
+    margin: 1rem auto;
+    background: #FFFFFF;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.register h1 {
+    color: #4A70A9;
+    margin-bottom: 1rem;
+    font-size: 2rem;
 }
 
 .regform {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .regform > .inputs {
-    padding: 0.5em 1em;
-    margin: 1em;
-    width: 50vw;
-    border: none;
-    border-radius: 1em;
-    font-size: 1.3em;
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    width: 100%;
+    border: 2px solid #8FABD4;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    transition: border-color 0.3s;
+}
+
+.regform > .inputs:focus {
+    outline: none;
+    border-color: #4A70A9;
 }
 
 .regbtn {
-    font-size: 2em;
+    font-size: 1.5rem;
     font-weight: bold;
-    color: #9e4ed9;
-    background-color: white;
+    color: #EFECE3;
+    background: #4A70A9;
     border: none;
-    border-radius: 1em;
-    padding: 0.5em 1em;
-    margin: 1em;
-    box-shadow: 0 0.3em 0.5em grey;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     cursor: pointer;
-    transition: ease 0.5s;
+    transition: background 0.3s, transform 0.2s;
 }
 
 .regbtn:hover {
-    color: #6ef06b;
-    box-shadow: 0 0.8em 1em grey;
+    background: #8FABD4;
+    transform: translateY(-2px);
 }
 
 @media only screen and (max-width: 768px) {

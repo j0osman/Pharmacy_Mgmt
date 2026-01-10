@@ -1,0 +1,26 @@
+services:
+  # --- Backend Service ---
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=development
+    # SQLite data stays inside the container (wiped on restart)
+    # If you change your mind later, you'd add a volume here.
+
+  # --- Frontend Service ---
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args:
+        # Locally, the frontend talks to the backend on localhost:5000
+        - VITE_API_URL=http://localhost:5000
+    ports:
+      - "5173:80"
+    depends_on:
+      - server

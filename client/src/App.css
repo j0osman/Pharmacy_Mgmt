@@ -2,13 +2,34 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    font-family: "Calibri", sans-serif;
+    color: #000000;
 }
 
 body {
-    background: linear-gradient(to right, #db4fb3, #8556fc);
+    background: #EFECE3;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .App {
     text-align: center;
+    width: 100%;
+}
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
 }

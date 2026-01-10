@@ -6,7 +6,22 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtGen = require("./utils/jwtGen");
 const db = require("./db");
+const fs = require("fs");
 const port = process.env.PORT || 5000;
+
+// Initialize database
+const initDb = () => {
+    const sql = fs.readFileSync("./database.sql", "utf8");
+    db.exec(sql, (err) => {
+        if (err) {
+            console.error("Error initializing database:", err);
+        } else {
+            console.log("Database initialized");
+        }
+    });
+};
+
+initDb();
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
@@ -16,71 +31,54 @@ app.use(
     })
 );
 
-db.connect((e) => {
-    if (e) {
-        console.error("Error: ", e.message);
-    } else {
-        console.log("Connected to MySQL Server");
-    }
-});
-
-//pharmacist
 app.post("/register", (req, res) => {
     const data = req.body.data;
     const passHash = bcrypt.hashSync(data.pass, 10);
-    db.query(
-        `INSERT INTO Pharmacist VALUES ("${data.id}", "${data.name}", "${data.email}", "${data.address}", "${data.mobile}", "${data.gender}", "${data.username}", "${passHash}");`,
-        (error, results, fields) => {
-            if (error) {
-                console.log(error);
-                res.send({ status: false });
-            } else {
-                res.send({ status: true });
-            }
+    const sql = `INSERT INTO Pharmacist VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    const params = [data.id, data.name, data.email, data.address, data.mobile, data.gender, data.username, passHash];
+    db.run(sql, params, function(err) {
+        if (err) {
+            console.log(err);
+            res.send({ status: false });
+        } else {
+            res.send({ status: true });
         }
-    );
+    });
 });
 
 app.post("/login", (req, res) => {
     const data = req.body.data;
-    db.query(
-        `SELECT * FROM Pharmacist WHERE User_name="${data.username}";`,
-        (error, results, fields) => {
-            if (error) {
-                console.log(error);
+    const sql = `SELECT * FROM Pharmacist WHERE User_name = ?`;
+    db.get(sql, [data.username], (error, row) => {
+        if (error) {
+            console.log(error);
+            res.send({ status: false });
+        } else {
+            if (!row) {
                 res.send({ status: false });
             } else {
-                if (results.length === 0) {
-                    res.send({ status: false });
-                } else {
-                    const status = bcrypt.compareSync(
-                        data.pass,
-                        results[0].Password
+                const status = bcrypt.compareSync(data.pass, row.Password);
+                if (status) {
+                    res.cookie(
+                        "jwt_token",
+                        jwtGen(row.Pharm_id, row.Pharm_name, row.Pharm_email),
+                        { expiresIn: "1h", httpOnly: false }
                     );
-                    if (status) {
-                        res.cookie(
-                            "jwt_token",
-                            jwtGen(
-                                results[0].Pharm_id,
-                                results[0].Pharm_name,
-                                results[0].Pharm_email
-                            ),
-                            { expiresIn: "1h", httpOnly: false }
-                        );
-                        res.send({
-                            status: true,
-                        });
-                    } else {
-                        res.send({ status: false });
-                    }
+                    res.send({ status: true });
+                } else {
+                    res.send({ status: false });
                 }
             }
         }
-    );
+    });
 });
 
 app.post("/auth", (req, res) => {
     const token = req.body.token;
+    if (!token) {
+        res.send({ status: false });
+        return;
+    }
     try {
         const pharmdata = jwt.verify(token, process.env.JWT_SECRET);
         res.send({ pharmdata, status: true });
@@ -92,116 +90,103 @@ app.post("/auth", (req, res) => {
 
 app.post("/getaccount", (req, res) => {
     const id = req.body.id;
-    db.query(
-        `SELECT * FROM Pharmacist WHERE Pharm_id=${id};`,
-        (error, results, fields) => {
-            if (error) {
-                console.log(error);
-            } else {
-                res.send({ results });
-            }
+    const sql = `SELECT * FROM Pharmacist WHERE Pharm_id = ?`;
+    db.get(sql, [id], (error, row) => {
+        if (error) {
+            console.log(error);
+            res.send({ results: [] });
+        } else {
+            res.send({ results: row ? [row] : [] });
         }
-    );
+    });
 });
 
 app.post("/updateaccount", (req, res) => {
     const data = req.body.data;
     const passHash = bcrypt.hashSync(data.pass, 10);
-    db.query(
-        `UPDATE Pharmacist SET Pharm_id="${data.id}", Pharm_name="${data.name}", Pharm_email="${data.email}", Pharm_address="${data.address}", Pharm_mobile="${data.mobile}", Pharm_gender="${data.gender}", User_name="${data.username}", Password="${passHash}" WHERE Pharm_id=${data.Pharm_id};`,
-        (error, results, fields) => {
-            if (error) {
-                console.log(error);
-                res.send({ status: false });
-            } else {
-                res.send({ status: true });
-            }
+    const sql = `UPDATE Pharmacist SET Pharm_id = ?, Pharm_name = ?, Pharm_email = ?, Pharm_address = ?, Pharm_mobile = ?, Pharm_gender = ?, User_name = ?, Password = ? WHERE Pharm_id = ?`;
+    const params = [data.id, data.name, data.email, data.address, data.mobile, data.gender, data.username, passHash, data.Pharm_id];
+    db.run(sql, params, function(err) {
+        if (err) {
+            console.log(err);
+            res.send({ status: false });
+        } else {
+            res.send({ status: true });
         }
-    );
+    });
 });
 
 app.post("/deleteaccount", (req, res) => {
     const id = req.body.id;
-    db.query(
-        `DELETE FROM Pharmacist WHERE Pharm_id=${id};`,
-        (error, results, fields) => {
-            if (error) {
-                console.log(error);
-                res.send({ status: false });
-            } else {
-                res.send({ status: true });
-            }
+    const sql = `DELETE FROM Pharmacist WHERE Pharm_id = ?`;
+    db.run(sql, [id], function(err) {
+        if (err) {
+            console.log(err);
+            res.send({ status: false });
+        } else {
+            res.send({ status: true });
         }
-    );
+    });
 });
 
 //customer
 app.post("/checkcust", (req, res) => {
     const id = req.body.pharmid;
-    db.query(
-        `SELECT * FROM Customer WHERE Cust_id=${id};`,
-        (error, results, fields) => {
-            if (error) {
-                console.log(error);
-            } else {
-                if (results.length === 0) {
-                    res.send({ status: false });
-                } else {
-                    res.send({ status: true });
-                }
-            }
+    const sql = `SELECT * FROM Customer WHERE Cust_id = ?`;
+    db.get(sql, [id], (error, row) => {
+        if (error) {
+            console.log(error);
+            res.send({ status: false });
+        } else {
+            res.send({ status: !!row });
         }
-    );
+    });
 });
 
 app.post("/addcust", (req, res) => {
     const data = req.body.data;
-    db.query(
-        `INSERT INTO Customer VALUES ("${data.id}","${data.name}",${data.age},"${data.gender}","${data.address}","${data.mobile}");`,
-        (error, results, fields) => {
-            if (error) {
-                console.log(error);
-                res.send({ status: false });
-            } else {
-                res.send({ status: true });
-            }
+    const sql = `INSERT INTO Customer VALUES (?, ?, ?, ?, ?, ?)`;
+    const params = [data.id, data.name, data.age, data.gender, data.address, data.mobile];
+    db.run(sql, params, function(err) {
+        if (err) {
+            console.log(err);
+            res.send({ status: false });
+        } else {
+            res.send({ status: true });
         }
-    );
+    });
 });
 
 //medicine
 app.post("/addmed", (req, res) => {
     const data = req.body.data;
-    db.query(
-        `INSERT INTO Medicine VALUES (NULL, "${data.medname}", ${data.medprice}, "${data.date}", "${data.pharmid}", "${data.custid}");`,
-        (error, results, fields) => {
-            if (error) {
-                console.log(error);
-                res.send({ status: false });
-            } else {
-                res.send({ status: true });
-            }
+    const sql = `INSERT INTO Medicine (Med_name, Med_price, Purch_date, Pharm_id, Cust_id) VALUES (?, ?, ?, ?, ?)`;
+    const params = [data.medname, data.medprice, data.date, data.pharmid, data.custid];
+    db.run(sql, params, function(err) {
+        if (err) {
+            console.log(err);
+            res.send({ status: false });
+        } else {
+            res.send({ status: true });
         }
-    );
+    });
 });
 
 app.post("/getsales", (req, res) => {
     const id = req.body.id;
     const date = req.body.date;
-    db.query(
-        `SELECT * FROM Medicine WHERE Pharm_id=${id} AND Purch_date="${date}";`,
-        (error, results, fields) => {
-            if (error) {
-                console.log(error);
-                res.send({ status: false });
-            } else {
-                res.send({
-                    results,
-                    status: true,
-                });
-            }
+    const sql = `SELECT * FROM Medicine WHERE Pharm_id = ? AND Purch_date = ?`;
+    db.all(sql, [id, date], (error, rows) => {
+        if (error) {
+            console.log(error);
+            res.send({ status: false });
+        } else {
+            res.send({
+                results: rows,
+                status: true,
+            });
         }
-    );
+    });
 });
 
 app.get("/", (req, res) => {

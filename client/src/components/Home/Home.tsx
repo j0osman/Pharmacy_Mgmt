@@ -5,8 +5,15 @@ import axios from "axios";
 //stylesheets
 import "./Home.css";
 
-const Home = (props) => {
-    const [sales, setSales] = useState(0);
+interface HomeProps {
+    pharmdata: {
+        id: string;
+        // add other properties if needed
+    };
+}
+
+const Home: React.FC<HomeProps> = (props) => {
+    const [sales, setSales] = useState<number>(0);
 
     useEffect(() => {
         const date = new Date().toISOString().slice(0, 10);

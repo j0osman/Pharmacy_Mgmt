@@ -3,48 +3,80 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 1rem;
+    max-width: 600px;
+    margin: 1rem auto;
+    background: #FFFFFF;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.sell h1 {
+    color: #4A70A9;
+    margin-bottom: 1rem;
+    font-size: 2rem;
 }
 
 .sellform {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .sellform > .inputs {
-    padding: 0.5em 1em;
-    margin: 1em;
-    font-size: 1.5em;
-    border: none;
-    border-radius: 1em;
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+    border: 2px solid #8FABD4;
+    border-radius: 0.5rem;
+    transition: border-color 0.3s;
+}
+
+.sellform > .inputs:focus {
+    outline: none;
+    border-color: #4A70A9;
 }
 
 .sellbtn {
-    padding: 0.5em 1em;
-    margin: 1em;
-    font-size: 2em;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    font-size: 1.5rem;
     font-weight: bold;
     border: none;
-    background-color: white;
-    color: #9e4ed9;
-    border-radius: 1em;
-    box-shadow: 0 0.3em 0.5em grey;
+    background: #4A70A9;
+    color: #EFECE3;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     cursor: pointer;
-    transition: ease 0.5s;
+    transition: background 0.3s, transform 0.2s;
 }
 
 .sellbtn:hover {
-    color: #6ef06b;
-    box-shadow: 0 0.8em 1em grey;
+    background: #8FABD4;
+    transform: translateY(-2px);
 }
 
 @media only screen and (max-width: 768px) {
+    .sell {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
     .sellform > .inputs {
-        width: 60vw;
+        width: 100%;
     }
 }
 
 @media only screen and (max-width: 500px) {
+    .sell h1 {
+        font-size: 1.8rem;
+    }
+
     .sellform > .inputs {
-        width: 90vw;
+        font-size: 1rem;
+    }
+
+    .sellbtn {
+        font-size: 1.3rem;
     }
 }

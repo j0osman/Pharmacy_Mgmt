@@ -1,35 +1,34 @@
-CREATE TABLE Pharmacist (
-    Pharm_id char(12) not null unique,
-    Pharm_name varchar(50) not null,
-    Pharm_email varchar(50) not null unique,
-    Pharm_address varchar(250) not null,
-    Pharm_mobile varchar(12) not null,
-    Pharm_gender char(1) not null,
-    User_name varchar(20) not null unique,
-    Password char(60) not null,
+CREATE TABLE IF NOT EXISTS Pharmacist (
+    Pharm_id TEXT NOT NULL UNIQUE,
+    Pharm_name TEXT NOT NULL,
+    Pharm_email TEXT NOT NULL UNIQUE,
+    Pharm_address TEXT NOT NULL,
+    Pharm_mobile TEXT NOT NULL,
+    Pharm_gender TEXT NOT NULL,
+    User_name TEXT NOT NULL UNIQUE,
+    Password TEXT NOT NULL,
     PRIMARY KEY (Pharm_id)
 );
 
-CREATE TABLE Customer (
-    Cust_id char(12) not null,
-    Cust_name varchar(50) not null,
-    Cust_age int not null,
-    Cust_gender char(1) not null,
-    Cust_address varchar(250) not null,
-    Cust_mobileno varchar(12) not null,
+CREATE TABLE IF NOT EXISTS Customer (
+    Cust_id TEXT NOT NULL,
+    Cust_name TEXT NOT NULL,
+    Cust_age INTEGER NOT NULL,
+    Cust_gender TEXT NOT NULL,
+    Cust_address TEXT NOT NULL,
+    Cust_mobileno TEXT NOT NULL,
     PRIMARY KEY (Cust_id)
 );
 
-CREATE TABLE Medicine (
-    Med_id SERIAL,
-    Med_name varchar(50) not null,
-    Med_price int not null,
-    Purch_date date not null,
-    Pharm_id char(12),
-    Cust_id char(12),
-    PRIMARY KEY (Med_id),
-    FOREIGN KEY (Pharm_id) REFERENCES Pharmacist(Pharm_id) on delete cascade,
-    FOREIGN KEY (Cust_id) REFERENCES Customer(Cust_id) on delete cascade
+CREATE TABLE IF NOT EXISTS Medicine (
+    Med_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Med_name TEXT NOT NULL,
+    Med_price INTEGER NOT NULL,
+    Purch_date TEXT NOT NULL,
+    Pharm_id TEXT,
+    Cust_id TEXT,
+    FOREIGN KEY (Pharm_id) REFERENCES Pharmacist(Pharm_id) ON DELETE CASCADE,
+    FOREIGN KEY (Cust_id) REFERENCES Customer(Cust_id) ON DELETE CASCADE
 );
 
-CREATE VIEW PURCHASES AS SELECT Med_price, Purch_date FROM Medicine;
+CREATE VIEW IF NOT EXISTS PURCHASES AS SELECT Med_price, Purch_date FROM Medicine;

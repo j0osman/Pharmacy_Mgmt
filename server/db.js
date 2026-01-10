@@ -1,11 +1,11 @@
 require("dotenv").config();
-const mysql = require("mysql");
-const db = mysql.createConnection({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_DB,
-    password: process.env.DB_PASS,
-    port: process.env.DB_PORT,
+const sqlite3 = require("sqlite3").verbose();
+const db = new sqlite3.Database("./pharmacy.db", (err) => {
+    if (err) {
+        console.error("Error opening database:", err.message);
+    } else {
+        console.log("Connected to SQLite database");
+    }
 });
 
 module.exports = db;

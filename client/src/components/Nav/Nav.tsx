@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 //stylesheets
 import "./Nav.css";
 
-const Nav = () => {
+const Nav: React.FC = () => {
     return (
         <div className="nav">
             <Link to="/" style={{ textDecoration: "none" }}>
@@ -13,12 +13,12 @@ const Nav = () => {
             <ul className="linklist">
                 <li>
                     <Link to="/sell" style={{ textDecoration: "none" }}>
-                        <i className="fas fa-dollar-sign fa-2x sale"></i>
+                        <span className="sale">Sell</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/account" style={{ textDecoration: "none" }}>
-                        <i className="fas fa-user fa-2x accountlink"></i>
+                        <span className="accountlink">Account</span>
                     </Link>
                 </li>
             </ul>
