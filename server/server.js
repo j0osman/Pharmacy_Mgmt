@@ -79,6 +79,15 @@ app.post("/login", (req, res) => {
     });
 });
 
+app.post("/logout", (req, res) => {
+    res.clearCookie("jwt_token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none'
+    });
+    res.send({ status: true });
+});
+
 app.post("/auth", (req, res) => {
     const token = req.cookies.jwt_token;
     if (!token) {

@@ -31,9 +31,12 @@ const Account: React.FC<AccountProps> = (props) => {
     const [update, setUpdate] = useState<boolean | null>(null);
     const [deleteacc, setDelete] = useState<boolean | null>(null);
 
-    const logout = () => {
-        Cookies.remove("jwt_token");
-        toast.error("Logged Out!!!");
+	const logout = () => {
+        axios.post(`${API_URL}/logout`, {}, { withCredentials: true })
+            .then(() => {
+                toast.error("Logged Out!!!");
+                window.location.href = "/login"; // Hard redirect to clear state
+            });
     };
 
     const deleteAcc = () => {
@@ -57,7 +60,7 @@ const Account: React.FC<AccountProps> = (props) => {
         setUpdate(true);
     };
 
-    useEffect(() => {
+	useEffect(() => {
         axios
             .post(`${API_URL}/getaccount`, {
                 id: props.pharmdata.id,
@@ -68,7 +71,7 @@ const Account: React.FC<AccountProps> = (props) => {
             .catch((e) => {
                 console.log(e);
             });
-    }, [data, props]);
+    }, [props.pharmdata.id]); // ONLY depend on the ID, not the data itself
 
     if (update) {
         return <Navigate to="/update" />;

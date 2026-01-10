@@ -27,7 +27,6 @@ import { API_URL } from "./config.ts"
 function App() {
     const [auth, setAuth] = useState<boolean>(false);
     const [pharmdata, setPharmData] = useState<any>({});
-	const [checking, setChecking] = useState<boolean>(true); // Add this line
 
     useEffect(() => {
         axios
@@ -44,12 +43,9 @@ function App() {
                 console.log(e);
                 setAuth(false);
             })
-            .finally(() => {
-                setChecking(false); // Stop checking once server responds
-            });
     }, []);
 	
-	if (checking) return <div className="loading">Loading...</div>;
+	if(auth === null) return null;
 
     return (
         <Router>
@@ -58,16 +54,7 @@ function App() {
             </div>
 
             <Routes>
-                <Route
-                    path="/"
-                    element={
-                        auth ? (
-                            <Home pharmdata={pharmdata} />
-                        ) : (
-                            <Navigate to="/login" />
-                        )
-                    }
-                />
+				<Route path="/" element={auth ? <Home pharmdata={pharmdata} /> : <Navigate to="/login" />} />
                 <Route
                     path="/sell"
                     element={auth ? <Cust /> : <Navigate to="/login" />}
