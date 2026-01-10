@@ -38,12 +38,12 @@ function App() {
 					if(res.data.status){
                     	setAuth(true);
                     	setPharmData(res.data.pharmdata?.data || {});
-					}else {
-						setAuth(false);
+						window.location.href = "/";
 					}
                 })
                 .catch((e) => {
                     console.log(e);
+					setAuth(false);
                 });
         } catch (e) {
             console.log(e);
