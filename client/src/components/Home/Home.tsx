@@ -5,6 +5,8 @@ import axios from "axios";
 //stylesheets
 import "./Home.css";
 
+import { API_URL } from "../../App.tsx"
+
 interface HomeProps {
     pharmdata: {
         id: string;
@@ -18,7 +20,7 @@ const Home: React.FC<HomeProps> = (props) => {
     useEffect(() => {
         const date = new Date().toISOString().slice(0, 10);
         axios
-            .post("http://localhost:5000/getsales", {
+            .post(`${API_URL}/getsales`, {
                 id: props.pharmdata.id,
                 date,
             })

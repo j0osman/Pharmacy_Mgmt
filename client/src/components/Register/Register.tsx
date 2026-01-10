@@ -6,6 +6,8 @@ import axios from "axios";
 //stylesheets
 import "./Register.css";
 
+import { API_URL } from "../../App.tsx"
+
 const Register: React.FC = () => {
     const [id, setID] = useState<string>("");
     const [name, setName] = useState<string>("");
@@ -64,7 +66,7 @@ const Register: React.FC = () => {
         };
 
         axios
-            .post("http://localhost:5000/register", { data })
+            .post(`${API_URL}/register`, { data })
             .then((res) => {
                 if (res.data.status) {
                     toast.success("Registered Successfully!!!");

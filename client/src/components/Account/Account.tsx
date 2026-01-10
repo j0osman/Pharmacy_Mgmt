@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { API_URL } from "../../App.tsx"
 
 //stylesheets
 import "./Account.css";
@@ -36,7 +37,7 @@ const Account: React.FC<AccountProps> = (props) => {
 
     const deleteAcc = () => {
         axios
-            .post("http://localhost:5000/deleteaccount", {
+            .post(`${API_URL}/deleteaccount`, {
                 id: props.pharmdata.id,
             })
             .then((res) => {
@@ -57,7 +58,7 @@ const Account: React.FC<AccountProps> = (props) => {
 
     useEffect(() => {
         axios
-            .post("http://localhost:5000/getaccount", {
+            .post(`${API_URL}/getaccount`, {
                 id: props.pharmdata.id,
             })
             .then((res) => {

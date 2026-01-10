@@ -6,6 +6,8 @@ import axios from "axios";
 //stylesheets
 import "./Sell.css";
 
+import { API_URL } from "../../App.tsx"
+
 interface SellProps {
     pharmdata: {
         id: string;
@@ -48,7 +50,7 @@ const Sell: React.FC<SellProps> = (props) => {
         const medprice = Number(ppu) * Number(quantity);
         const data = { medname, medprice, date, pharmid, custid };
         axios
-            .post("http://localhost:5000/addmed", { data })
+            .post(`${API_URL}/addmed`, { data })
             .then((res) => {
                 if (res.data.status) {
                     toast.success("Medicine Sold Successfully!!!");

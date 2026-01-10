@@ -6,6 +6,8 @@ import axios from "axios";
 //stylesheets
 import "./Cust.css";
 
+import { API_URL } from "../../App.tsx"
+
 const Cust: React.FC = () => {
     const [formstatus, setFormStatus] = useState<boolean | null>(null);
     const [custstatus, setCustStatus] = useState<boolean | null>(null);
@@ -22,7 +24,7 @@ const Cust: React.FC = () => {
         setID(value);
         if (value.length === 12) {
             axios
-                .post("http://localhost:5000/checkcust", { pharmid: value })
+                .post(`${API_URL}/checkcust`, { pharmid: value })
                 .then((res) => {
                     if (res.data.status) {
                         toast.success("Customer is in the Database");
@@ -72,7 +74,7 @@ const Cust: React.FC = () => {
         };
         if (formstatus === false) {
             axios
-                .post("http://localhost:5000/addcust", { data })
+                .post(`${API_URL}/addcust`, { data })
                 .then((res) => {
                     setCustStatus(res.data.status);
                 })

@@ -6,6 +6,8 @@ import axios from "axios";
 //stylesheets
 import "./Update.css";
 
+import { API_URL } from "../../App.tsx"
+
 interface UpdateProps {
     pharmdata: {
         id: string;
@@ -72,7 +74,7 @@ const Update: React.FC<UpdateProps> = (props) => {
         };
 
         axios
-            .post("http://localhost:5000/updateaccount", { data })
+            .post(`${API_URL}/updateaccount`, { data })
             .then((res) => {
                 if (res.data.status) {
                     toast.success("Updated Successfully!!!");

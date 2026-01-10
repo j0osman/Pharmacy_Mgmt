@@ -23,6 +23,8 @@ import Update from "./components/Update/Update";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 function App() {
     const [auth, setAuth] = useState<boolean>(false);
     const [pharmdata, setPharmData] = useState<any>({});
@@ -31,7 +33,7 @@ function App() {
         try {
             const token = Cookies.get("jwt_token");
             axios
-                .post("http://localhost:5000/auth", { token })
+                .post(`${API_URL}/auth`, { token })
                 .then((res) => {
                     setAuth(res.data.status);
                     setPharmData(res.data.pharmdata.data);
@@ -42,7 +44,7 @@ function App() {
         } catch (e) {
             console.log(e);
         }
-    });
+    }, []);
 
     return (
         <Router>

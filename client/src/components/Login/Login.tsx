@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 //stylesheets
 import "./Login.css";
 
+import { API_URL } from "../../App.tsx"
+
 const Login: React.FC = () => {
     const [login, setLogin] = useState<boolean | null>(null);
 
@@ -25,7 +27,7 @@ const Login: React.FC = () => {
         const data = { username, pass };
         axios
             .post(
-                "http://localhost:5000/login",
+                `${API_URL}/login`,
                 { data },
                 { withCredentials: true }
             )
