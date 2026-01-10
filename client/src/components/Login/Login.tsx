@@ -45,9 +45,7 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         if (login === true) {
-            window.location.pathname = "/";
-        } else if (login === false) {
-            toast.error("Login Failed");
+            window.location.href = "/";
 			setLogin(null);
         }
     }, [login]);

@@ -24,7 +24,7 @@ const initDb = () => {
 
 initDb();
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: "https://pharma-client-ru35.onrender.com", credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(
@@ -67,8 +67,7 @@ app.post("/login", (req, res) => {
                         { maxAge: 3600000, 
 						  httpOnly: true, 
 						  secure: true, 
-						  sameSite: 'none',
-						  partitioned: true
+						  sameSite: 'none'
 						}
                     );
                     res.send({ status: true });
