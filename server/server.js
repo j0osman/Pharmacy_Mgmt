@@ -62,11 +62,10 @@ app.post("/login", (req, res) => {
                     res.cookie(
                         "jwt_token",
                         jwtGen(row.Pharm_id, row.Pharm_name, row.Pharm_email),
-                        { expiresIn: "1h", 
+                        { maxAge: 3600000, 
 						  httpOnly: true, 
 						  secure: true, 
-						  sameSite: 'none',
-						  partitioned: true
+						  sameSite: 'none'
 						}
                     );
                     res.send({ status: true });
