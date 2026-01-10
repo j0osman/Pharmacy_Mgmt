@@ -48,8 +48,9 @@ const Login: React.FC = () => {
             window.location.pathname = "/";
         } else if (login === false) {
             toast.error("Login Failed");
+			setLogin(null);
         }
-    });
+    }, [login]);
 
     return (
         <div className="login">
