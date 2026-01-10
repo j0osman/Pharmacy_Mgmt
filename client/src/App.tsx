@@ -23,7 +23,7 @@ import Update from "./components/Update/Update";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import { API_URL } from "../config.ts"
+import { API_URL } from "./config.ts"
 
 function App() {
     const [auth, setAuth] = useState<boolean>(false);
