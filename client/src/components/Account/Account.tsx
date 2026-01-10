@@ -35,7 +35,7 @@ const Account: React.FC<AccountProps> = (props) => {
             .then(() => {
                 toast.error("Logged Out!!!");
                 window.location.href = "/login"; // Hard redirect to clear state
-            });
+            })
 			.catch(err => console.log(err));
     };
 
@@ -61,16 +61,18 @@ const Account: React.FC<AccountProps> = (props) => {
     };
 
 	useEffect(() => {
-        axios
-            .post(`${API_URL}/getaccount`, {
-                id: props.pharmdata.id,
-            })
-            .then((res) => {
-                setData(res.data.results[0]);
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+		if (props.pharmdata.id){
+        	axios
+        	    .post(`${API_URL}/getaccount`, {
+        	        id: props.pharmdata.id,
+        	    })
+        	    .then((res) => {
+        	        setData(res.data.results[0] || {});
+        	    })
+        	    .catch((e) => {
+        	        console.log(e);
+        	    });
+		}
     }, [props.pharmdata.id]); // ONLY depend on the ID, not the data itself
 
     if (update) {
