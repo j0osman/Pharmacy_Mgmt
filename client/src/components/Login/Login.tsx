@@ -37,10 +37,12 @@ const Login: React.FC = () => {
                     setLogin(true);
                 } else {
                     setLogin(false);
+					toast.error("Invalid Username or Password");
                 }
             })
             .catch((e) => {
                 console.log(e);
+				toast.error("Server Error. Try again later.");
             });
     };
 
