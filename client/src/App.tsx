@@ -28,6 +28,13 @@ function App() {
     const [auth, setAuth] = useState<boolean>(false);
     const [pharmdata, setPharmData] = useState<any>({});
 
+	useEffect(() => {
+    	// A simple health-check ping to wake up the backend
+    	axios.get(`${API_URL}/ping`).catch(() => {
+    	    console.log("Waking up server...");
+    	});
+	}, []);
+
     useEffect(() => {
         axios
             .post(`${API_URL}/auth`, {}, { withCredentials: true })
