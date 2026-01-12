@@ -204,6 +204,8 @@ app.post("/getsales", (req, res) => {
     });
 });
 
+app.get("/ping", (req, res) => res.send("pong"));
+
 app.get("/", (req, res) => {
     res.send("Server Working");
 });
